@@ -1,11 +1,68 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { FlowbiteService } from '../../../shared/services/flowbite.service';
+import { initFlowbite } from 'flowbite';
+import { StorageManagerService } from '../../../shared/services/storage-manager.service';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthApiService } from 'auth-api';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss'
+  styleUrl: './sign-in.component.scss',
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit, AfterViewInit {
+  private flowbiteService: FlowbiteService = inject(FlowbiteService);
+  private readonly _storageManager = inject(StorageManagerService);
+  private readonly _authService = inject(AuthApiService);
+  private readonly _router = inject(Router);
+  private destroy$ = new Subject<void>();
 
+  loginForm!: FormGroup;
+
+  constructor() {
+    this.flowbiteService.loadFlowbite((flowbite) => {
+      initFlowbite();
+    });
+  }
+
+  initLoginForm() {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+    });
+  }
+
+  ngAfterViewInit() {
+    this.initLoginForm();
+  }
+
+  ngOnInit(): void {}
+
+  signIn(): void {
+    if (this.loginForm.valid) {
+      this._authService
+        .login(this.loginForm.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            console.log('Login successful', res);
+            this._storageManager.setItem('token', res.token);
+            this._router.navigate(['/home']);
+          },
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
