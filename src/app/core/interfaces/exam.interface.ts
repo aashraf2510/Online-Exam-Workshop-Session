@@ -15,3 +15,8 @@ export interface ExamsResponse {
   metadata: Metadata;
   exams: Exam[];
 }
+
+export interface ExamsAdaptResponse {
+  message: string;
+  exams: Exam[];
+}

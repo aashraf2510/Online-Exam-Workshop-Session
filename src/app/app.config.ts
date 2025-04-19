@@ -8,12 +8,14 @@ import {
 } from '@angular/platform-browser';
 import { BASE_URL } from 'auth-api';
 import { environment } from './env/env.prod';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch()),
     { provide: BASE_URL, useValue: environment.apiUrl },
   ],
 };

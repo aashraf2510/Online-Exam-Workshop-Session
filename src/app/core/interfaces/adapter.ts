@@ -1,3 +1,10 @@
+import { ExamsAdaptResponse, ExamsResponse } from './exam.interface';
+import {
+  QuestionsAdaptResponse,
+  QuestionsResponse,
+} from './question.interface';
+
 export interface Adapter {
-  adapt(data: any): any;
+  examAdapter(data: ExamsResponse): ExamsAdaptResponse;
+  questionAdapter(data: QuestionsResponse): QuestionsAdaptResponse;
 }

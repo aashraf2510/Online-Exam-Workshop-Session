@@ -22,7 +22,12 @@ export interface QuestionsResponse {
   questions: Question[];
 }
 
-export interface WrongQuestionResponse {
+export interface QuestionsAdaptResponse {
+  message: string;
+  questions: Question[];
+}
+
+export interface WrongQuestion {
   QID: string;
   Question: string;
   inCorrectAnswer: string;
@@ -35,6 +40,6 @@ export interface CheckedQuestionResponse {
   correct: number;
   wrong: number;
   total: string;
-  WrongQuestions: WrongQuestionResponse[];
+  WrongQuestions: WrongQuestion[];
   correctQuestions: [];
 }

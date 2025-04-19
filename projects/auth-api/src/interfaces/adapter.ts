@@ -1,3 +1,5 @@
+import { LoginAdapterResponse, LoginResponse } from './login';
+
 export interface Adapter {
-  adapt(data: any): any;
+  adapt(data: LoginResponse): LoginAdapterResponse;
 }
