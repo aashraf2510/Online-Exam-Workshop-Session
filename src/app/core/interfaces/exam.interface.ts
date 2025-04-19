@@ -10,7 +10,7 @@ export interface Exam {
   createdAt: string;
 }
 
-export interface AllExamsResponse {
+export interface ExamsResponse {
   message: string;
   metadata: Metadata;
   exams: Exam[];
