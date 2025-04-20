@@ -1,6 +1,6 @@
 {
-  "name": "auth-api",
-  "version": "0.0.1",
+  "name": "@ahmed_ashraf_98/auth-api",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^19.2.0",
     "@angular/core": "^19.2.0"

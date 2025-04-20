@@ -4,6 +4,7 @@ import { initFlowbite } from 'flowbite';
 import { StorageManagerService } from '../../../shared/services/storage-manager.service';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthApiService } from 'auth-api';
+import * as AuthActions from '../../../store/auth/auth.actions';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,11 +20,12 @@ import { Router } from '@angular/router';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
 })
-export class SignInComponent implements OnInit, AfterViewInit {
+export class SignInComponent implements OnInit {
   private flowbiteService: FlowbiteService = inject(FlowbiteService);
-  private readonly _storageManager = inject(StorageManagerService);
+
   private readonly _authService = inject(AuthApiService);
   private readonly _router = inject(Router);
+  private readonly _store = inject(Store);
   private destroy$ = new Subject<void>();
 
   loginForm!: FormGroup;
@@ -40,11 +43,9 @@ export class SignInComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
     this.initLoginForm();
   }
-
-  ngOnInit(): void {}
 
   signIn(): void {
     if (this.loginForm.valid) {
@@ -53,8 +54,10 @@ export class SignInComponent implements OnInit, AfterViewInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (res) => {
-            console.log('Login successful', res);
-            this._storageManager.setItem('token', res.token);
+            this._store.dispatch(
+              AuthActions.loginSuccess({ token: res.token, rememberMe: true })
+            );
+
             this._router.navigate(['/home']);
           },
         });

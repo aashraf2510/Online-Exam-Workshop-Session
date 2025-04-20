@@ -9,6 +9,11 @@ import {
 import { BASE_URL } from 'auth-api';
 import { environment } from './env/env.prod';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { tokenReducer } from './store/auth/auth.reducers';
+import { AuthEffects } from './store/auth/auth.effects';
+import { examReducer } from './store/exam/exam.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +22,10 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     { provide: BASE_URL, useValue: environment.apiUrl },
+    provideStore({
+      token: tokenReducer,
+      exam: examReducer,
+    }),
+    provideEffects(AuthEffects),
   ],
 };
