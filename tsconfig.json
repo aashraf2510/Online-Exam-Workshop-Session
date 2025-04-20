@@ -4,9 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "auth-api": [
-        "./dist/auth-api"
-      ]
+      "auth-api": ["./dist/auth-api"],
+      "@questions-store/*": ["./src/app/store/question/*"],
+      "@exams-store/*": ["./src/app/store/exam/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

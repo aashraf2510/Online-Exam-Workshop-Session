@@ -20,6 +20,7 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { examReducer } from './store/exam/exam.reducers';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { questionReducer } from './store/question/question.reducers';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,8 @@ export const appConfig: ApplicationConfig = {
       exam: examReducer,
       question: questionReducer,
     }),
+    provideCharts(withDefaultRegisterables()),
     provideEffects(AuthEffects),
+    provideCharts(withDefaultRegisterables()),
   ],
 };

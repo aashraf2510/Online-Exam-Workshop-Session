@@ -11,6 +11,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { selectExamState } from '@exams-store/exam.selectors';
+import * as ExamActions from '@exams-store/exam.actions';
 
 @Component({
   selector: 'app-exam-modal',
@@ -66,6 +68,25 @@ export class ExamModalComponent implements OnInit {
     }
   }
 
+  getWrongQuestions() {
+    let wrongQuestions: QuestionDataState[] = [];
+    this._store.select(QuestionSelectors.selectQuestionsList).subscribe({
+      next: (dataList) => {
+        wrongQuestions = dataList.filter(
+          (data) => data.correct != data.selectedAnswer
+        );
+        // TODO : Update Wrong questions List
+        this.showQuickReport();
+      },
+    });
+
+    console.log(wrongQuestions);
+  }
+
+  showQuickReport() {
+    this._store.dispatch(ExamActions.updateExamStatus({ status: 'Completed' }));
+  }
+
   onBack() {
     if (this.questionObj.index - 1 == 0) {
       this.isBackBtnDisabled = true;
@@ -86,7 +107,13 @@ export class ExamModalComponent implements OnInit {
   }
 
   onNext() {
-    console.log(this.quizForm.get('selectedAnswer')?.value);
+    let selectedAnswer = this.quizForm.get('selectedAnswer')?.value;
+    this._store.dispatch(
+      QuestionActions.updateQuestion({
+        questionId: this.questionObj._id,
+        selectedAnswer: selectedAnswer,
+      })
+    );
 
     if (!this.quizForm.valid) {
       console.log('Select One Answer to procceed');
@@ -95,34 +122,28 @@ export class ExamModalComponent implements OnInit {
 
     if (this.questionObj.index == this.numberOfQuestions - 1) {
       console.log('Already in last question');
-    } else {
-      this.isNextBtnDisabled = false;
+      this.getWrongQuestions();
 
-      let selectedAnswer = this.quizForm.get('selectedAnswer')?.value;
-      this._store.dispatch(
-        QuestionActions.updateQuestion({
-          questionId: this.questionObj._id,
-          selectedAnswer: selectedAnswer,
-        })
-      );
-
-      this._store.dispatch(
-        QuestionActions.onNext({ currIndex: this.questionObj.index })
-      );
-
-      console.log(this.quizForm.get('selectedAnswer')?.value);
-      this.quizForm
-        .get('selectedAnswer')
-        ?.setValue(this.questionObj.selectedAnswer);
-
-      this.isNextBtnDisabled = true;
-
-      if (this.questionObj.selectedAnswer) {
-        this.isNextBtnDisabled = false;
-      }
-
-      this.isBackBtnDisabled = false;
+      return;
     }
+
+    this.isNextBtnDisabled = false;
+    this._store.dispatch(
+      QuestionActions.onNext({ currIndex: this.questionObj.index })
+    );
+
+    console.log(this.quizForm.get('selectedAnswer')?.value);
+    this.quizForm
+      .get('selectedAnswer')
+      ?.setValue(this.questionObj.selectedAnswer);
+
+    this.isNextBtnDisabled = true;
+
+    if (this.questionObj.selectedAnswer) {
+      this.isNextBtnDisabled = false;
+    }
+
+    this.isBackBtnDisabled = false;
   }
 
   ngOnInit(): void {

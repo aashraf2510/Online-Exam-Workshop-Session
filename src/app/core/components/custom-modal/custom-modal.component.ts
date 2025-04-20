@@ -12,6 +12,6 @@ import { Subject } from 'rxjs';
 export class CustomModalComponent {
   private readonly _store = inject(Store);
   closeModal() {
-    this._store.dispatch(ExamActions.toggleModal({ isOpen: false }));
+    this._store.dispatch(ExamActions.toggleModal());
   }
 }

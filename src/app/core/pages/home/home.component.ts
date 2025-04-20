@@ -1,17 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CustomModalComponent } from '../../components/custom-modal/custom-modal.component';
 import { Store } from '@ngrx/store';
-import { selectExamStatus } from '../../../store/exam/exam.selectors';
+import {
+  selectExamModal,
+  selectExamStatus,
+} from '../../../store/exam/exam.selectors';
 import * as ExamActions from '../../../store/exam/exam.actions';
 import { QuestionsService } from '../../../shared/services/questions.service';
 import * as QuestionActions from '../../../store/question/question.actions';
 import { QuestionDataState } from '../../../store/question/question.state';
 import { ExamModalComponent } from '../../components/exam-modal/exam-modal.component';
 import { examStatus } from '../../../store/exam/exam.state';
+import { ExamScoreComponent } from '../../components/exam-score/exam-score.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CustomModalComponent, ExamModalComponent],
+  imports: [CustomModalComponent, ExamModalComponent, ExamScoreComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -20,12 +24,16 @@ export class HomeComponent implements OnInit {
   readonly examName: string = 'HTML';
   private readonly _store = inject(Store);
   private readonly _questionsService = inject(QuestionsService);
-  modalState: examStatus = 'Not Started';
+  examStatus: examStatus = 'Not Started';
+  modalState: boolean = false;
   examQuestionsList: QuestionDataState[] = [] as QuestionDataState[];
 
   initEvents() {
     this._store.select(selectExamStatus).subscribe((state) => {
-      console.log(state);
+      this.examStatus = state;
+    });
+
+    this._store.select(selectExamModal).subscribe((state) => {
       this.modalState = state;
     });
   }
@@ -33,17 +41,9 @@ export class HomeComponent implements OnInit {
   getExamQuestions() {
     this._questionsService.allQuestionsOnExam(this._examId).subscribe({
       next: (res) => {
-        this.examQuestionsList = res.questions.map<QuestionDataState>(
-          (q, i) => ({
-            _id: q._id,
-            index: i,
-            answers: q.answers,
-            question: q.question,
-            correct: q.correct,
-          })
-        );
+        this.examQuestionsList = res.questions;
 
-        let currQues = this.examQuestionsList[0] as QuestionDataState;
+        let currQues = this.examQuestionsList[0];
 
         this._store.dispatch(
           QuestionActions.setQuestions({ questions: this.examQuestionsList })
@@ -54,6 +54,8 @@ export class HomeComponent implements OnInit {
         this._store.dispatch(
           ExamActions.updateExamStatus({ status: 'Started' })
         );
+
+        this._store.dispatch(ExamActions.toggleModal());
       },
     });
   }

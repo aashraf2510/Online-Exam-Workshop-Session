@@ -1,10 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { examStatus } from './exam.state';
 
-export const toggleModal = createAction(
-  '[Exam] ToggleModal',
-  props<{ isOpen: boolean }>()
-);
+export const toggleModal = createAction('[Exam] ToggleModal');
 
 export const updateExamStatus = createAction(
   '[Exam] Update Exam Status',

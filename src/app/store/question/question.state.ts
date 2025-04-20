@@ -12,6 +12,7 @@ export interface QuestionDataState {
 export interface QuestionState {
   currentQuestion: QuestionDataState | null;
   questions: QuestionDataState[];
+  wrongQuestions: QuestionDataState[];
   numberOfCorrect: number;
   numberOfWrong: number;
   numberOfQuestions: number;

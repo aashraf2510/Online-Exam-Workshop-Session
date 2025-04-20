@@ -33,3 +33,8 @@ export const selectNumberOfQuestions = createSelector(
   selectQuestionState,
   (state) => state.numberOfQuestions
 );
+
+export const selectWrongQuestions = createSelector(
+  selectQuestionState,
+  (state) => state.wrongQuestions
+);

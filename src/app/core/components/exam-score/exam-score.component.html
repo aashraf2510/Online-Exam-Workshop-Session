@@ -1,1 +1,11 @@
-<p>exam-score works!</p>
+<h1>{{ isBrowser }}</h1>
+
+<div class="w-60">
+  @if(isBrowser){
+  <canvas
+    baseChart
+    [data]="doughnutChartData"
+    [type]="doughnutChartType"
+  ></canvas>
+  }
+</div>

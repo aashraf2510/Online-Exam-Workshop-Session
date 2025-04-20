@@ -3,12 +3,12 @@ import { QuestionState } from './question.state';
 import * as QuestionActions from './question.actions';
 
 export const questionInitialState: QuestionState = {
-  // answeredQuestions: [],
   currentQuestion: null,
   questions: [],
   numberOfCorrect: 0,
   numberOfWrong: 0,
   numberOfQuestions: 0,
+  wrongQuestions: [],
 };
 
 export const questionReducer = createReducer(
@@ -23,21 +23,6 @@ export const questionReducer = createReducer(
     ...state,
     currentQuestion: question,
   })),
-
-  // on(QuestionActions.addAnsweredQuestions, (state, { question }) => ({
-  //   ...state,
-  //   questions: [
-  //     ...state.questions,
-  //     {
-  //       _id: question._id,
-  //       answers: question.answers,
-  //       index: state.questions.length,
-  //       selectedAnswer: question.selectedAnswer,
-  //       question: question.question,
-  //       correct: question.correct,
-  //     },
-  //   ],
-  // })),
 
   on(
     QuestionActions.updateQuestion,

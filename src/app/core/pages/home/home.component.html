@@ -29,8 +29,13 @@
   </div>
 </div>
 
-@if (modalState == 'Started') {
+@if (modalState) {
 <app-custom-modal>
+  @switch (examStatus) { @case ('Started') {
   <app-exam-modal></app-exam-modal>
+  } @case ('Completed') {
+  <app-exam-score></app-exam-score>
+  } }
 </app-custom-modal>
 }
+<!-- <app-exam-score></app-exam-score> -->

@@ -17,6 +17,15 @@ export interface Question {
   createdAt: string;
 }
 
+export interface QuestionAdapt {
+  answers: Answer[];
+  _id: string;
+  index: number;
+  question: string;
+  correct: string;
+  selectedAnswer?: string;
+}
+
 export interface QuestionsResponse {
   message: string;
   questions: Question[];
@@ -24,7 +33,7 @@ export interface QuestionsResponse {
 
 export interface QuestionsAdaptResponse {
   message: string;
-  questions: Question[];
+  questions: QuestionAdapt[];
 }
 
 export interface WrongQuestion {

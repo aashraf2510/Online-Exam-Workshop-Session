@@ -30,18 +30,16 @@ export class MainAPIAdapter implements Adapter {
   questionAdapter(data: QuestionsResponse): QuestionsAdaptResponse {
     return {
       message: data.message,
-      questions: data.questions.map((question) => ({
+      questions: data.questions.map((question, index) => ({
         answers: question.answers.map((answer) => ({
           answer: answer.answer,
           key: answer.key,
         })),
-        type: question.type,
         _id: question._id,
         question: question.question,
         correct: question.correct,
         subject: question.subject,
-        exam: question.exam,
-        createdAt: question.createdAt,
+        index: index,
       })),
     };
   }
