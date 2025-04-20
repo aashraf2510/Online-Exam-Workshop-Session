@@ -1,1 +1,80 @@
+<div>
+  <header class="exam-header">
+    <div class="top-header flex align-items-center justify-content-between">
+      <div class="left-side">
+        <span
+          >Question <span>{{ this.questionObj.index + 1 }} </span> of
+          <span>{{ numberOfQuestions }}</span></span
+        >
+      </div>
+      <div class="right-side flex align-items-center">
+        <img src="/public/timer.png" alt="" srcset="" />
+        <!-- <span class="ml-2 timer">{{
+          displayExamTime ? displayExamTime : "00:00"
+        }}</span> -->
+      </div>
+    </div>
+    <div
+      class="unstyled-list p-0 quiz-step-wrapper flex justify-content-around"
+    >
+      @for (step of questionsSteps; track $index) { @if( $index <=
+      questionObj.index){
+      <div class="quiz-step answered"></div>
+      }@else {
+      <div class="quiz-step"></div>
+      } }
+    </div>
+  </header>
 
+  <div class="question-container">
+    <p class="text-xl my-2 break-all">{{ questionObj.question }}</p>
+
+    <div class="question-container__answers-wrapper h-56 overflow-y-auto mt-3">
+      <form [formGroup]="quizForm" class="h-full">
+        @for ( answer of questionObj.answers; track $index) {
+
+        <div class="flex items-center mb-4 answer-box">
+          <input
+            (change)="onSelectAnswer()"
+            [id]="answer.key"
+            type="radio"
+            [value]="answer.key"
+            [checked]="questionObj.selectedAnswer == answer.key"
+            formControlName="selectedAnswer"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+          />
+          <label class="ml-2" [for]="answer.key">{{ answer.answer }} </label>
+        </div>
+        }
+      </form>
+    </div>
+  </div>
+
+  <footer class="exam-footer flex justify-between items-center p-4 mt-8">
+    <button
+      [disabled]="isBackBtnDisabled"
+      [ngClass]="{
+        'bg-gray-200 text-gray-500 cursor-not-allowed opacity-50':
+          isBackBtnDisabled,
+        'bg-orange-500 hover:bg-orange-600 text-white': !isBackBtnDisabled
+      }"
+      (click)="onBack()"
+      class="w-50 font-semibold py-2 px-6 rounded-2xl shadow transition duration-200"
+    >
+      Back
+    </button>
+
+    <button
+      [disabled]="isNextBtnDisabled"
+      (click)="onNext()"
+      [ngClass]="{
+        'bg-gray-200 text-gray-500 cursor-not-allowed opacity-50':
+          isNextBtnDisabled,
+        'bg-blue-500 hover:bg-blue-600 text-white': !isNextBtnDisabled
+      }"
+      class="w-50 font-semibold py-2 px-6 rounded-2xl shadow transition duration-200"
+    >
+      Next
+    </button>
+  </footer>
+</div>

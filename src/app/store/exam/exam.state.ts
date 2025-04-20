@@ -1,8 +1,6 @@
-export interface ExamModalState {
-  isOpen: boolean;
-}
+export type examStatus = 'Not Started' | 'Started' | 'Completed';
 
 export interface ExamState {
-  examModal: ExamModalState;
   exam: [];
+  examStatus: examStatus;
 }

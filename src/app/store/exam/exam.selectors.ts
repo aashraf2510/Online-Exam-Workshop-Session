@@ -3,8 +3,9 @@ import { ExamState } from '../exam/exam.state';
 
 export const selectExamState = createFeatureSelector<ExamState>('exam');
 
-export const examModal = createSelector(
+export const selectExamStatus = createSelector(
   selectExamState,
-  (state) => state.examModal
+  (state) => state.examStatus
 );
-export const examData = createSelector(selectExamState, (state) => state);
+
+// export const examData = createSelector(selectExamState, (state) => state);

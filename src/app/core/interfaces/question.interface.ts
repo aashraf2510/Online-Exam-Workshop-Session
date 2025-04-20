@@ -41,5 +41,5 @@ export interface CheckedQuestionResponse {
   wrong: number;
   total: string;
   WrongQuestions: WrongQuestion[];
-  correctQuestions: [];
+  correctQuestions: Question[];
 }

@@ -1,0 +1,28 @@
+.timer {
+  color: #11ce19;
+  width: 40px;
+}
+
+.quiz-step-wrapper {
+  padding: 8px;
+}
+
+.quiz-step {
+  width: 10px;
+  height: 10px;
+  margin: 8px;
+  background: #d9d9d9;
+  border-radius: 50%;
+}
+
+.answered {
+  background: var(--main-color);
+}
+
+.answer-box {
+  background: #edeff3;
+  padding: 16px 8px;
+  border-radius: 10px;
+  // margin: 4px 0;
+  word-break: break-all;
+}

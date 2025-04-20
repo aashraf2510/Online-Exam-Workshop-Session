@@ -7,6 +7,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const token = _storageManager.getItem('token');
 
   if (token) {
+    console.log(token);
     req = req.clone({
       setHeaders: {
         token: token,

@@ -1,21 +1,18 @@
-import { ExamModalState, ExamState } from './exam.state';
+import { ExamState } from './exam.state';
 import { createReducer, on } from '@ngrx/store';
 import * as ExamActions from './exam.actions';
 
 export const examInitialState: ExamState = {
-  examModal: {
-    isOpen: false,
-  },
   exam: [],
+  examStatus: 'Not Started',
 };
 
 export const examReducer = createReducer(
   examInitialState,
-  on(ExamActions.toggleModal, (state, { isOpen }) => ({
+  on(ExamActions.updateExamStatus, (state, { status }) => ({
     ...state,
-    examModal: {
-      ...state.examModal,
-      isOpen,
-    },
-  }))
+    examStatus: status,
+  })),
+
+  on(ExamActions.resetExamStatus, () => examInitialState)
 );
