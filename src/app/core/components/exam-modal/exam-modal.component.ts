@@ -55,9 +55,8 @@ export class ExamModalComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (obj) => {
-          console.log(obj);
+          // console.log(obj);
           this.questionObj = obj!;
-          this.initForm();
         },
       });
   }
@@ -70,18 +69,21 @@ export class ExamModalComponent implements OnInit {
 
   getWrongQuestions() {
     let wrongQuestions: QuestionDataState[] = [];
-    this._store.select(QuestionSelectors.selectQuestionsList).subscribe({
-      next: (dataList) => {
-        wrongQuestions = dataList.filter(
-          (data) => data.correct != data.selectedAnswer
-        );
+    this._store
+      .select(QuestionSelectors.selectQuestionsList)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (dataList) => {
+          wrongQuestions = dataList.filter(
+            (data) => data.correct != data.selectedAnswer
+          );
 
-        this._store.dispatch(
-          QuestionActions.setWrongQuestions({ questions: wrongQuestions })
-        );
-      },
-    });
-
+          this._store.dispatch(
+            QuestionActions.setWrongQuestions({ questions: wrongQuestions })
+          );
+        },
+      });
+    console.log('Called!!!');
     console.log(wrongQuestions);
   }
 
@@ -109,6 +111,8 @@ export class ExamModalComponent implements OnInit {
   }
 
   onNext() {
+    console.log(this.questionObj);
+
     let selectedAnswer = this.quizForm.get('selectedAnswer')?.value;
     this._store.dispatch(
       QuestionActions.updateQuestion({
@@ -125,7 +129,6 @@ export class ExamModalComponent implements OnInit {
     if (this.questionObj.index == this.numberOfQuestions - 1) {
       console.log('Already in last question');
       this.getWrongQuestions();
-
       return;
     }
 
@@ -134,7 +137,6 @@ export class ExamModalComponent implements OnInit {
       QuestionActions.onNext({ currIndex: this.questionObj.index })
     );
 
-    console.log(this.quizForm.get('selectedAnswer')?.value);
     this.quizForm
       .get('selectedAnswer')
       ?.setValue(this.questionObj.selectedAnswer);
@@ -151,10 +153,12 @@ export class ExamModalComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentQuestion();
     this.getNumberOfQuestions();
+    this.initForm();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.quizForm.reset();
   }
 }

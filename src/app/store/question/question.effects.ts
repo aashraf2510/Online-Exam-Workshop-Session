@@ -16,10 +16,10 @@ export class QuestionEffects {
   readonly loadQuestions = createEffect(() =>
     this.actions$.pipe(
       ofType(QuestionsActions.loadQuestionsOfExam),
-      tap(() => console.log('Helllo')),
+      // tap(() => console.log('Helllo')),
       switchMap((action) =>
         this._questionService.allQuestionsOnExam(action.examId).pipe(
-          tap((action) => console.log(action)),
+          // tap((action) => console.log(action)),
           map((questions) =>
             QuestionsActions.setQuestions({
               questions: questions.questions,
@@ -36,7 +36,7 @@ export class QuestionEffects {
       withLatestFrom(
         this._store.select(QuestionsSelectors.selectQuestionsList)
       ),
-      tap((action) => console.log(action[1])),
+      // tap((action) => console.log(action[1])),
       map(([action, questionsList]) =>
         QuestionsActions.setCurrentQuestion({ question: questionsList[0] })
       )
