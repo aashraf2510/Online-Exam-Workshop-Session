@@ -28,6 +28,8 @@ export class ExamModalComponent implements OnInit {
   questionObj: QuestionDataState = {} as QuestionDataState;
   quizForm!: FormGroup;
 
+  // duration: number = 0;
+  // displayExamTime
   isNextBtnDisabled = true;
   isBackBtnDisabled = true;
 
@@ -149,6 +151,32 @@ export class ExamModalComponent implements OnInit {
 
     this.isBackBtnDisabled = false;
   }
+
+  // startExamTimer() {
+  //   let seconds: number = this.duration * 60;
+  //   let textSec: any = '0';
+  //   let statSec: number = 60;
+
+  //   const prefix = this.duration < 10 ? '0' : '';
+
+  //   const timer = setInterval(() => {
+  //     seconds--;
+  //     if (statSec != 0) statSec--;
+  //     else statSec = 59;
+
+  //     if (statSec < 10) {
+  //       textSec = '0' + statSec;
+  //     } else textSec = statSec;
+
+  //     // this.displayExamTime = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+  //     if (seconds == 0) {
+  //       console.log('finished');
+  //       clearInterval(timer);
+  //       // Close Exam
+  //     }
+  //   }, 1000);
+  // }
 
   ngOnInit(): void {
     this.getCurrentQuestion();
