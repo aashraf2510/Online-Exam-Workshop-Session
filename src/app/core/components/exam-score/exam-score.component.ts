@@ -86,10 +86,10 @@ export class ExamScoreComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.calcForChart();
     this.timeDelay = setTimeout(() => {
+      this.calcForChart();
       this.initChart();
-    }, 50);
+    });
   }
 
   ngOnDestroy(): void {

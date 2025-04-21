@@ -1,4 +1,4 @@
-<div>
+<div class="h-full">
   <header class="exam-header">
     <div class="top-header flex align-items-center justify-content-between">
       <div class="left-side">
@@ -29,7 +29,7 @@
   <div class="question-container">
     <p class="text-xl my-2 break-all">{{ questionObj.question }}</p>
 
-    <div class="question-container__answers-wrapper h-56 overflow-y-auto mt-3">
+    <div class="question-container__answers-wrapper h-80 overflow-y-auto mt-3">
       <form [formGroup]="quizForm" class="h-full">
         @for ( answer of questionObj.answers; track $index) {
 

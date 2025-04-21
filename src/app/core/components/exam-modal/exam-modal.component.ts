@@ -55,7 +55,6 @@ export class ExamModalComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (obj) => {
-          console.log('wwww');
           console.log(obj);
           this.questionObj = obj!;
           this.initForm();
