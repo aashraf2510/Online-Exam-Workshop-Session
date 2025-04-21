@@ -44,5 +44,10 @@ export const questionReducer = createReducer(
     currentQuestion: state.questions[currIndex - 1],
   })),
 
+  on(QuestionActions.setWrongQuestions, (state, { questions }) => ({
+    ...state,
+    wrongQuestions: questions,
+  })),
+
   on(QuestionActions.resetQuestionState, () => questionInitialState)
 );

@@ -5,17 +5,22 @@ import {
   selectExamModal,
   selectExamStatus,
 } from '../../../store/exam/exam.selectors';
-import * as ExamActions from '../../../store/exam/exam.actions';
 import { QuestionsService } from '../../../shared/services/questions.service';
 import * as QuestionActions from '../../../store/question/question.actions';
 import { QuestionDataState } from '../../../store/question/question.state';
 import { ExamModalComponent } from '../../components/exam-modal/exam-modal.component';
 import { examStatus } from '../../../store/exam/exam.state';
 import { ExamScoreComponent } from '../../components/exam-score/exam-score.component';
+import { ExamSummaryComponent } from '../../components/exam-summary/exam-summary.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CustomModalComponent, ExamModalComponent, ExamScoreComponent],
+  imports: [
+    CustomModalComponent,
+    ExamModalComponent,
+    ExamScoreComponent,
+    ExamSummaryComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -39,25 +44,28 @@ export class HomeComponent implements OnInit {
   }
 
   getExamQuestions() {
-    this._questionsService.allQuestionsOnExam(this._examId).subscribe({
-      next: (res) => {
-        this.examQuestionsList = res.questions;
+    this._store.dispatch(
+      QuestionActions.loadQuestionsOfExam({ examId: this._examId })
+    );
+    // this._questionsService.allQuestionsOnExam(this._examId).subscribe({
+    //   next: (res) => {
+    //     this.examQuestionsList = res.questions;
 
-        let currQues = this.examQuestionsList[0];
+    //     let currQues = this.examQuestionsList[0];
 
-        this._store.dispatch(
-          QuestionActions.setQuestions({ questions: this.examQuestionsList })
-        );
-        this._store.dispatch(
-          QuestionActions.setCurrentQuestion({ question: currQues })
-        );
-        this._store.dispatch(
-          ExamActions.updateExamStatus({ status: 'Started' })
-        );
+    //     this._store.dispatch(
+    //       QuestionActions.setQuestions({ questions: this.examQuestionsList })
+    //     );
+    //     this._store.dispatch(
+    //       QuestionActions.setCurrentQuestion({ question: currQues })
+    //     );
+    //     this._store.dispatch(
+    //       ExamActions.updateExamStatus({ status: 'Started' })
+    //     );
 
-        this._store.dispatch(ExamActions.toggleModal());
-      },
-    });
+    //     this._store.dispatch(ExamActions.toggleModal());
+    //   },
+    // });
   }
 
   startExam() {

@@ -1,6 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { QuestionDataState } from './question.state';
 
+export const loadQuestionsOfExam = createAction(
+  '[Question] Load Questions Of Exam',
+  props<{ examId: string }>()
+);
+
 export const setQuestions = createAction(
   '[Question] Set Questions',
   props<{ questions: QuestionDataState[] }>()

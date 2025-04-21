@@ -1,0 +1,23 @@
+.answer-box {
+  background: #edeff3;
+  padding: 16px 8px;
+  border-radius: 10px;
+  // margin: 4px 0;
+  word-break: break-all;
+}
+
+.correct-box {
+  background: #84f17a;
+  padding: 16px 8px;
+  border-radius: 10px;
+  // margin: 4px 0;
+  word-break: break-all;
+}
+
+.wrong-box {
+  background: #ffa0a0;
+  padding: 16px 8px;
+  border-radius: 10px;
+  // margin: 4px 0;
+  word-break: break-all;
+}

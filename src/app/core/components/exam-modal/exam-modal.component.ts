@@ -37,7 +37,6 @@ export class ExamModalComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (value) => {
-          console.log(value);
           this.numberOfQuestions = value;
           this.questionsSteps = [...Array(this.numberOfQuestions).keys()];
         },
@@ -56,6 +55,8 @@ export class ExamModalComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (obj) => {
+          console.log('wwww');
+          console.log(obj);
           this.questionObj = obj!;
           this.initForm();
         },
@@ -75,17 +76,19 @@ export class ExamModalComponent implements OnInit {
         wrongQuestions = dataList.filter(
           (data) => data.correct != data.selectedAnswer
         );
-        // TODO : Update Wrong questions List
-        this.showQuickReport();
+
+        this._store.dispatch(
+          QuestionActions.setWrongQuestions({ questions: wrongQuestions })
+        );
       },
     });
 
     console.log(wrongQuestions);
   }
 
-  showQuickReport() {
-    this._store.dispatch(ExamActions.updateExamStatus({ status: 'Completed' }));
-  }
+  // showQuickReport() {
+  //   this._store.dispatch(ExamActions.updateExamStatus({ status: 'Completed' }));
+  // }
 
   onBack() {
     if (this.questionObj.index - 1 == 0) {

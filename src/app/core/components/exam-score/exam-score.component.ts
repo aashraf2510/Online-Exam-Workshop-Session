@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   Component,
   inject,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
@@ -10,6 +11,9 @@ import { Store } from '@ngrx/store';
 import { ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import * as QuestionsSelectors from '@questions-store/question.selectors';
+import * as QuestionsActions from '@questions-store/question.actions';
+import * as ExamSelectors from '@exams-store/exam.selectors';
+import * as ExamActions from '@exams-store/exam.actions';
 
 @Component({
   selector: 'app-exam-score',
@@ -17,11 +21,11 @@ import * as QuestionsSelectors from '@questions-store/question.selectors';
   templateUrl: './exam-score.component.html',
   styleUrl: './exam-score.component.scss',
 })
-export class ExamScoreComponent implements AfterViewInit, OnInit {
+export class ExamScoreComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   isBrowser = isPlatformBrowser(this.platformId);
   private readonly _store = inject(Store);
-
+  private timeDelay!: NodeJS.Timeout;
   numberOfWrongQuestions = 0;
   numberOfQuestions = 0;
 
@@ -68,13 +72,28 @@ export class ExamScoreComponent implements AfterViewInit, OnInit {
     });
   }
 
+  closeExam() {
+    this._store.dispatch(QuestionsActions.resetQuestionState());
+    this._store.dispatch(ExamActions.resetExamStatus());
+  }
+
+  showFullReport() {
+    this._store.dispatch(
+      ExamActions.updateExamStatus({ status: 'Review Answers' })
+    );
+  }
+
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.calcForChart();
-    setTimeout(() => {
+    this.timeDelay = setTimeout(() => {
       this.initChart();
-    }, 12);
+    }, 50);
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.timeDelay);
   }
 
   // events

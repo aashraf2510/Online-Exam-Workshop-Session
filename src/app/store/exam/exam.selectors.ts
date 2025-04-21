@@ -1,6 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExamState } from '../exam/exam.state';
 
+// This line creates a selector to access the root state of the exam feature from the global NgRx store.
+
 export const selectExamState = createFeatureSelector<ExamState>('exam');
 
 export const selectExamStatus = createSelector(

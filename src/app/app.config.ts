@@ -21,6 +21,8 @@ import { examReducer } from './store/exam/exam.reducers';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { questionReducer } from './store/question/question.reducers';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ExamEffects } from '@exams-store/exam.effects';
+import { QuestionEffects } from '@questions-store/question.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,7 +37,7 @@ export const appConfig: ApplicationConfig = {
       question: questionReducer,
     }),
     provideCharts(withDefaultRegisterables()),
-    provideEffects(AuthEffects),
+    provideEffects(AuthEffects, ExamEffects, QuestionEffects),
     provideCharts(withDefaultRegisterables()),
   ],
 };
