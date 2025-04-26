@@ -3,8 +3,9 @@
     <div class="top-header flex align-items-center justify-content-between">
       <div class="left-side">
         <span
-          >Question <span>{{ this.questionObj.index + 1 }} </span> of
-          <span>{{ numberOfQuestions }}</span></span
+          >Question <span>{{ currentQuestionObj.index + 1 }} </span> of
+
+          <span>{{ numOfQuestions$ | async }} </span></span
         >
       </div>
       <div class="right-side flex align-items-center">
@@ -17,21 +18,28 @@
     <div
       class="unstyled-list p-0 quiz-step-wrapper flex justify-content-around"
     >
-      @for (step of questionsSteps; track $index) { @if( $index <=
-      questionObj.index){
+      @for (step of generateRange((numOfQuestions$ | async) ?? 0); track $index)
+      { @if( $index <= currentQuestionObj.index){
       <div class="quiz-step answered"></div>
       }@else {
       <div class="quiz-step"></div>
       } }
+
+      <!-- @for (step of  ); track
+      $index){ @if( $index <= questionObj.index){
+      <div class="quiz-step answered"></div>
+      }@else {
+      <div class="quiz-step"></div>
+      } } -->
     </div>
   </header>
 
   <div class="question-container">
-    <p class="text-xl my-2 break-all">{{ questionObj.question }}</p>
+    <p class="text-xl my-2 break-all">{{ currentQuestionObj.question }}</p>
 
     <div class="question-container__answers-wrapper h-80 overflow-y-auto mt-3">
       <form [formGroup]="quizForm" class="h-full">
-        @for ( answer of questionObj.answers; track $index) {
+        @for ( answer of currentQuestionObj.answers; track $index) {
 
         <div class="flex items-center mb-4 answer-box">
           <input
@@ -39,7 +47,7 @@
             [id]="answer.key"
             type="radio"
             [value]="answer.key"
-            [checked]="questionObj.selectedAnswer == answer.key"
+            [checked]="currentQuestionObj.selectedAnswer == answer.key"
             formControlName="selectedAnswer"
             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
           />

@@ -1,19 +1,17 @@
-import { Answer, Question } from '../../core/interfaces/question.interface';
+// list of questions
+// current question
+// number of questions
+// wrong questions
+// number of wrong questions
 
-export interface QuestionDataState {
-  answers: Answer[];
-  _id: string;
-  index: number;
-  question: string;
-  correct: string;
-  selectedAnswer?: string; // Optional, only filled for answered questions
-}
+import { QuestionAdapt } from '../../core/interfaces/question.interface';
 
 export interface QuestionState {
-  currentQuestion: QuestionDataState | null;
-  questions: QuestionDataState[];
-  wrongQuestions: QuestionDataState[];
-  numberOfCorrect: number;
-  numberOfWrong: number;
-  numberOfQuestions: number;
+  questions: QuestionAdapt[]; // List all question that related to the EXAM ID
+  currentQuestion: QuestionAdapt | null; // To Display the Current Question
+  wrongQuestions: QuestionAdapt[]; // To list all wrong answered questions
+  numberOfQuestions: number; // Number of all questions
+  numberOfWrongQuestions: number; // Number of all wrong questions
 }
+
+// Diff => Number of correct answers

@@ -1,49 +1,25 @@
-import { createAction, props } from '@ngrx/store';
-import { QuestionDataState } from './question.state';
+// Load Questions from API
 
-export const loadQuestionsOfExam = createAction(
-  '[Question] Load Questions Of Exam',
+import { createAction, props } from '@ngrx/store';
+import { QuestionAdapt } from '../../core/interfaces/question.interface';
+
+// Load Questions
+export const loadQuestions = createAction(
+  '[Question] Load Questions',
   props<{ examId: string }>()
 );
 
 export const setQuestions = createAction(
   '[Question] Set Questions',
-  props<{ questions: QuestionDataState[] }>()
+  props<{ questions: QuestionAdapt[] }>()
 );
 
 export const setCurrentQuestion = createAction(
   '[Question] Set Current Question',
-  props<{ question: QuestionDataState }>()
+  props<{ question: QuestionAdapt }>()
 );
 
-export const addAnsweredQuestions = createAction(
-  '[Question] Add Answered Question',
-  props<{ question: QuestionDataState }>()
+// Reset State
+export const resetQuestionState = createAction(
+  '[Question] Reset Question Sate'
 );
-
-export const updateQuestion = createAction(
-  '[Question] Update Question',
-  props<{ questionId: string; selectedAnswer: string }>()
-);
-
-export const onNext = createAction(
-  '[Question] Next Question',
-  props<{ currIndex: number }>()
-);
-
-export const onBack = createAction(
-  '[Question] Prev Question',
-  props<{ currIndex: number }>()
-);
-
-export const setCorrectQuestions = createAction(
-  '[Question] Set Correct Questions',
-  props<{ questionsList: QuestionDataState[] }>()
-);
-
-export const setWrongQuestions = createAction(
-  '[Question] Set Wrong Questions',
-  props<{ questions: QuestionDataState[] }>()
-);
-
-export const resetQuestionState = createAction('[Question] Reset State');

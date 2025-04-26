@@ -1,6 +1,12 @@
-//  Completed show the scores
-//  Review show the Wrong answers
-export type examStatus =
+//  Not Started ==> Modal Is closed
+
+// Started ==>  Questions Comp
+
+// Completed ==> Score Report comp
+
+// Review Answers ===> Wrong answers comp
+
+export type exmStatus =
   | 'Not Started'
   | 'Started'
   | 'Completed'
@@ -8,7 +14,6 @@ export type examStatus =
   | 'Closed';
 
 export interface ExamState {
-  exam: [];
-  examStatus: examStatus;
+  examStatus: exmStatus;
   isExamModalOpen: boolean;
 }

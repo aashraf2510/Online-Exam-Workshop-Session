@@ -29,14 +29,12 @@
   </div>
 </div>
 
-@if (modalState) {
+@if(isOpen$ | async){
 <app-custom-modal>
-  @switch (examStatus) { @case ('Started') {
-  <app-exam-modal></app-exam-modal>
-  } @case ('Completed') {
-  <app-exam-score></app-exam-score>
-  } @case ('Review Answers') {
-  <app-exam-summary />
+  @switch (examStatus$ | async) { @case ("Started") {
+
+  <app-exam></app-exam>
   } }
 </app-custom-modal>
 }
+<p>{{ examStatus$ | async }}</p>

@@ -17,12 +17,11 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { tokenReducer } from './store/auth/auth.reducers';
 import { AuthEffects } from './store/auth/auth.effects';
-import { examReducer } from './store/exam/exam.reducers';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
-import { questionReducer } from './store/question/question.reducers';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { ExamEffects } from '@exams-store/exam.effects';
-import { QuestionEffects } from '@questions-store/question.effects';
+import { examReducer } from '@examStore/exam.reducer';
+import { questionReducer } from '@questionStore/question.reducer';
+import { QuestionsEffects } from '@questionStore/question.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,7 +36,7 @@ export const appConfig: ApplicationConfig = {
       question: questionReducer,
     }),
     provideCharts(withDefaultRegisterables()),
-    provideEffects(AuthEffects, ExamEffects, QuestionEffects),
+    provideEffects(AuthEffects, QuestionsEffects),
     provideCharts(withDefaultRegisterables()),
   ],
 };
