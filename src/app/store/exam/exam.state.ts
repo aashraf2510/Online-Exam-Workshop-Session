@@ -6,6 +6,8 @@
 
 // Review Answers ===> Wrong answers comp
 
+// Time Out ==> show time out compnet
+
 export type exmStatus =
   | 'Not Started'
   | 'Started'

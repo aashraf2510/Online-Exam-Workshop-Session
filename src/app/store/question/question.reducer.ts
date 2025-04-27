@@ -27,5 +27,35 @@ export const questionReducer = createReducer(
     currentQuestion: question,
   })),
 
+  on(
+    QuestionActions.updateQuestion,
+    (state, { questionId, selectedAnswer }) => ({
+      ...state,
+      questions: state.questions.map((q) =>
+        q._id === questionId ? { ...q, selectedAnswer } : q
+      ),
+    })
+  ),
+
+  on(QuestionActions.onNext, (state, { currentIndex }) => ({
+    ...state,
+    currentQuestion: state.questions[currentIndex + 1],
+  })),
+
+  on(QuestionActions.onBack, (state, { currentIndex }) => ({
+    ...state,
+    currentQuestion: state.questions[currentIndex - 1],
+  })),
+
+  on(QuestionActions.setWrongQuestions, (state) => ({
+    ...state,
+    wrongQuestions: state.questions.filter(
+      (q) => q.correct != q.selectedAnswer
+    ),
+    numberOfWrongQuestions: state.questions.filter(
+      (q) => q.correct != q.selectedAnswer
+    ).length,
+  })),
+
   on(QuestionActions.resetQuestionState, () => questionInitialState)
 );

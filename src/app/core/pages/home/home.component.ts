@@ -9,10 +9,18 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { exmStatus } from '@examStore/exam.state';
 import { ExamComponent } from '../../../shared/business/exam/exam.component';
+import { ExamScoreComponent } from '../../../shared/business/exam-score/exam-score.component';
+import { ExamSummaryComponent } from '../../../shared/business/exam-summary/exam-summary.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CustomModalComponent, AsyncPipe, ExamComponent],
+  imports: [
+    CustomModalComponent,
+    AsyncPipe,
+    ExamComponent,
+    ExamScoreComponent,
+    ExamSummaryComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -30,7 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   startExam() {
-    this._store.dispatch(ExamActions.toggleModal());
+    // this._store.dispatch(ExamActions.toggleModal());
     this._store.dispatch(
       QuestionActions.loadQuestions({ examId: this._examId })
     );

@@ -18,7 +18,17 @@ export const selectCurrentQuestion = createSelector(
   (state) => state.currentQuestion
 );
 
+export const selectWrongQuestions = createSelector(
+  selectQuestionState,
+  (state) => state.wrongQuestions
+);
+
 export const selectNumberOfQuestions = createSelector(
   selectQuestionState,
   (state) => state.numberOfQuestions
+);
+
+export const selectNumberOfWrongQuestions = createSelector(
+  selectQuestionState,
+  (state) => state.numberOfWrongQuestions
 );

@@ -1,0 +1,43 @@
+<section class="exam-summary h-full overflow-y-auto">
+  <div class="grid grid-cols-2 h-[430px] gap-4 overflow-y-auto">
+    @for (questionObj of wrongQuestions$ | async; track $index) {
+    <div class="wrongQues m-2">
+      <p class="text-[1rem] my-2 break-all">{{ questionObj.question }}</p>
+      @for (answer of questionObj.answers; track $index) {
+      <div
+        [class]="
+          'flex items-center mb-4 ' +
+          (questionObj.selectedAnswer == answer.key ? 'wrong-box' : '') +
+          (answer.key == questionObj.correct ? 'correct-box' : '') +
+          (questionObj.selectedAnswer != answer.key &&
+          answer.key != questionObj.correct
+            ? 'answer-box'
+            : '')
+        "
+      >
+        <input
+          disabled
+          [id]="answer.key"
+          [name]="'Question_' + questionObj._id"
+          type="radio"
+          [checked]="questionObj.selectedAnswer == answer.key"
+          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+        />
+        <label class="ml-2" [for]="answer.key">{{ answer.answer }} </label>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <footer
+    class="score-footer flex justify-between items-center p-4 mt-8 flex justify-center items-center"
+  >
+    <button
+      (click)="closeModal()"
+      class="w-50 font-semibold py-2 px-6 rounded-2xl text-orange-600 border-1 shadow transition duration-200 bg-transparent hover:bg-orange-400 hover:text-white border-orange-600 mr-2"
+    >
+      Close
+    </button>
+  </footer>
+</section>

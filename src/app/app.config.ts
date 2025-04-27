@@ -35,7 +35,6 @@ export const appConfig: ApplicationConfig = {
       exam: examReducer,
       question: questionReducer,
     }),
-    provideCharts(withDefaultRegisterables()),
     provideEffects(AuthEffects, QuestionsEffects),
     provideCharts(withDefaultRegisterables()),
   ],

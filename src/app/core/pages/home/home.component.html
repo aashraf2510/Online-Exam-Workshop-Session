@@ -34,7 +34,10 @@
   @switch (examStatus$ | async) { @case ("Started") {
 
   <app-exam></app-exam>
+  } @case ("Completed") {
+  <app-exam-score></app-exam-score>
+  } @case ("Review Answers") {
+  <app-exam-summary></app-exam-summary>
   } }
 </app-custom-modal>
 }
-<p>{{ examStatus$ | async }}</p>

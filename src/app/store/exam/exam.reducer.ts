@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { ExamState } from './exam.state';
 import * as ExamActions from './exam.actions';
-import { stat } from 'node:fs/promises';
 
 export const exmaInitialState: ExamState = {
   examStatus: 'Not Started',
@@ -19,5 +18,7 @@ export const examReducer = createReducer(
   on(ExamActions.updateExamStatus, (state, { status }) => ({
     ...state,
     examStatus: status,
-  }))
+  })),
+
+  on(ExamActions.resetExamState, () => exmaInitialState)
 );
